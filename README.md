@@ -98,13 +98,13 @@ python main.py
 ```
 
 ### 6) Test keypad only
-
-```
-
 ## Media
 
 Demo video : https://drive.google.com/drive/folders/1_1uyPSZ0tulJLGlMxORozhvnuZMWxBsU
 rapport : https://drive.google.com/drive/folders/1nSCV6HwBXUD6e2LcyMuNfCZ53oxWeRsh
+```
+
+
 
 Build photo:
 
