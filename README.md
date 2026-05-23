@@ -1,129 +1,134 @@
-# Secure-Entry Smart Door System
+Secure-Entry Smart Door System
 
-Secure-Entry is a Raspberry Pi based access control system that combines keypad PIN entry, face recognition, and remote control through Firebase. It drives a solenoid lock and sends alerts for wrong PIN attempts.
+Secure-Entry is a Raspberry Pi-based access control system that combines keypad PIN authentication, face recognition, and remote control through Firebase. The system controls a solenoid door lock and sends alerts when unauthorized access attempts are detected.
 
-## Features
-
-- Keypad PIN unlock
-- Face recognition using OpenCV LBPH
-- Remote open via Firebase Realtime Database
-- Email and WhatsApp alerts on wrong PIN
-- Solenoid lock control with a push button
-
-## Project Structure
-
-- `main.py` - Main door controller (GPIO, keypad, Firebase, alerts)
-- `save.py` - Capture face images for a person
-- `augment.py` - Data augmentation for faces
-- `train.py` - Train LBPH model and save labels
-- `detect_face.py` - Live face detection and recognition
-- `images/` - Wiring and build photos
-- `demo.mp4` - Project demo video
-
-## Hardware
-
-- Raspberry Pi (tested with Zero 2 W)
-- Camera module or USB camera
-- 4x4 keypad
-- Push button
-- Solenoid lock + 12V power supply
-- NPN transistor (TIP120 or similar) and flyback diode
-- Wires, resistors, and common ground
-
-## Wiring Notes
-
-- Solenoid lock is driven through a transistor with a flyback diode and separate 12V supply.
-- Share ground between the Raspberry Pi and the 12V supply.
-- GPIO pins in `main.py`:
-  - Solenoid: GPIO 17
-  - Button: GPIO 26
-  - Keypad rows: GPIO 6, 5, 19, 13
-  - Keypad cols: GPIO 21, 20, 16, 12
-
-## Software Requirements
-
-- Python 3.9+
-- OpenCV with contrib modules (required for `cv2.face`)
-- numpy
-- firebase-admin
-- twilio
-- RPi.GPIO (Raspberry Pi only)
-
-Install dependencies (on Raspberry Pi):
-
-```bash
+Features
+PIN-based door unlocking using a 4x4 keypad
+Face recognition using OpenCV LBPH
+Remote door opening through Firebase Realtime Database
+Email and WhatsApp notifications for incorrect PIN attempts
+Solenoid lock control with a physical push button
+Local and remote access management
+Project Structure
+main.py – Main door controller (GPIO, keypad, Firebase, notifications)
+save.py – Capture face images for a user
+augment.py – Perform face image augmentation
+train.py – Train the LBPH face recognition model and save labels
+detect_face.py – Real-time face detection and recognition
+images/ – Hardware wiring and assembly photos
+demo.mp4 – Demonstration video
+Hardware Requirements
+Raspberry Pi (tested on Raspberry Pi Zero 2 W)
+Raspberry Pi Camera Module or USB Camera
+4x4 Matrix Keypad
+Push Button
+Solenoid Door Lock
+12V Power Supply
+NPN Transistor (TIP120 or equivalent)
+Flyback Diode (1N4007 or equivalent)
+Jumper Wires and Resistors
+Wiring Notes
+The solenoid lock is driven through an NPN transistor with a flyback diode for protection.
+Use a separate 12V power supply for the solenoid lock.
+Connect the grounds of the Raspberry Pi and the 12V power supply together.
+GPIO Configuration (main.py)
+Component	GPIO Pin
+Solenoid Lock	GPIO 17
+Push Button	GPIO 26
+Keypad Rows	GPIO 6, 5, 19, 13
+Keypad Columns	GPIO 21, 20, 16, 12
+Software Requirements
+Python 3.9+
+OpenCV Contrib (required for cv2.face)
+NumPy
+Firebase Admin SDK
+Twilio
+RPi.GPIO (Raspberry Pi only)
+Installation
 python -m pip install opencv-contrib-python numpy firebase-admin twilio RPi.GPIO
-```
+Setup
+1. Create the Face Dataset
 
-## Setup
+Create the following directory structure:
 
-1. Create a dataset folder:
-   - `known_faces/<person_name>/` with images inside.
-2. Configure secrets in `main.py`:
-   - `PASSWORD`, Firebase key path and URL
-   - Email sender and password
-   - Twilio account settings
-3. Make sure the Haar cascade file can be downloaded (the scripts will fetch it if missing).
+known_faces/
+└── person_name/
+    ├── image1.jpg
+    ├── image2.jpg
+    └── ...
+2. Configure Credentials
 
-## Usage
+Update the following parameters in main.py:
 
-### 1) Capture faces
+PASSWORD
+Firebase service account key path
+Firebase database URL
+Email sender address and password
+Twilio Account SID, Auth Token, and phone numbers
+3. Haar Cascade
 
-```bash
+The required Haar Cascade file will be automatically downloaded if it is not already available.
+
+Usage
+Capture Face Images
 python save.py
-```
-
-### 2) Augment images (optional)
-
-```bash
+Augment Dataset (Optional)
 python augment.py
-```
-
-### 3) Train model
-
-```bash
+Train the Recognition Model
 python train.py
-```
-
-### 4) Test live recognition
-
-```bash
+Test Live Face Recognition
 python detect_face.py
-```
-
-### 5) Run the full door system
-
-```bash
+Run the Complete Door Access System
 python main.py
-```
+Media
+Demo Video
 
-### 6) Test keypad only
-## Media
+https://drive.google.com/drive/folders/1_1uyPSZ0tulJLGlMxORozhvnuZMWxBsU
 
-Demo video : https://drive.google.com/drive/folders/1_1uyPSZ0tulJLGlMxORozhvnuZMWxBsU /n
-rapport : https://drive.google.com/drive/folders/1nSCV6HwBXUD6e2LcyMuNfCZ53oxWeRsh
-```
+Project Report
 
+https://drive.google.com/drive/folders/1nSCV6HwBXUD6e2LcyMuNfCZ53oxWeRsh
 
+Images
+Door Prototype
+images/555f2f78-0d71-4f76-a9bc-bf39b1ace30f.png
+Wiring Diagram
+images/625759319_1415197293593456_7040423243210406227_n.png
+Raspberry Pi Pinout
+images/67aa3834-6482-4ecc-9e2d-e4ad3837cbbe.jpg
+Troubleshooting
+cv2.face Module Not Found
 
-Build photo:
+Install the OpenCV Contrib package instead of the standard OpenCV package:
 
-![Door build](images/555f2f78-0d71-4f76-a9bc-bf39b1ace30f.png)
+pip uninstall opencv-python
+pip install opencv-contrib-python
+Camera Cannot Be Opened
+Verify that the camera is connected correctly.
+Check camera permissions.
+Try a different OpenCV backend in detect_face.py and save.py.
+GPIO Permission Errors
 
-Wiring diagram:
+Run the application with elevated privileges:
 
-![Wiring diagram](images/625759319_1415197293593456_7040423243210406227_n.png)
+sudo python main.py
+Security and Safety
 
-Raspberry Pi pinout:
+ This project controls a physical door lock.
 
-![Pi pinout](images/67aa3834-6482-4ecc-9e2d-e4ad3837cbbe.jpg)
+Before connecting the 12V supply:
 
-## Troubleshooting
+Verify all wiring connections carefully.
+Test the circuit without the lock connected.
+Ensure the flyback diode is installed correctly.
+Confirm that the transistor and power supply are rated for the lock current.
 
-- If `cv2.face` is missing, install `opencv-contrib-python` instead of `opencv-python`.
-- If the camera does not open, adjust the backend in `detect_face.py` and `save.py`.
-- GPIO access may require running with `sudo` on Raspberry Pi.
+Improper wiring may damage the Raspberry Pi, power supply, or lock mechanism.
 
-## Safety
-
-This project controls a real door lock. Test with power disconnected first, and ensure wiring is correct before applying 12V power.
+Future Improvements
+Mobile application for remote monitoring
+Face recognition using deep learning models
+Visitor management system
+Event logging and access history
+Multi-user authentication levels
+Video intercom integration
