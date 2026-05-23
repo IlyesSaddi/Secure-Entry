@@ -17,7 +17,6 @@ Secure-Entry is a Raspberry Pi based access control system that combines keypad 
 - `augment.py` - Data augmentation for faces
 - `train.py` - Train LBPH model and save labels
 - `detect_face.py` - Live face detection and recognition
-- `q1.py` - Standalone keypad test
 - `images/` - Wiring and build photos
 - `demo.mp4` - Project demo video
 
@@ -100,13 +99,12 @@ python main.py
 
 ### 6) Test keypad only
 
-```bash
-python q1.py
 ```
 
 ## Media
 
-Demo video: [demo.mp4](demo.mp4)
+Demo video : https://drive.google.com/drive/folders/1_1uyPSZ0tulJLGlMxORozhvnuZMWxBsU
+rapport : https://drive.google.com/drive/folders/1nSCV6HwBXUD6e2LcyMuNfCZ53oxWeRsh
 
 Build photo:
 
